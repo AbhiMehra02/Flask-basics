@@ -1,4 +1,4 @@
-# Basics from flask 
+# Basics of flask 
 
 
 
