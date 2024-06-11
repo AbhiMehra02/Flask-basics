@@ -1,0 +1,63 @@
+1.About cookies
+    Defination 
+        HTTP cookie->sn=mall piece of data
+        remember user prefrences
+
+        SQLite->chrome and firefox used 
+
+    Why ?
+        maintain kogin status
+        shopping carts
+        save user lang, theme appereance , custom setting etc.
+        save website traffic for analytics
+        reduce CSRF/XSS attacks
+
+2. Working
+    user <-interacts-> webapp <= [http request>,<response from ] => derver
+
+
+                 HTTP Response      
+        ------------------------------
+        | Protocol | code | code text|
+        ------------------------------
+        |           Headers           |
+        ------------------------------
+        |             Body            |
+        -------------------------------  
+
+    attribute to set cookie
+        name/value      : contain main data of cookie ,
+        Expires/Max-age : lifespan of cookie,
+        path     :,
+        Secure   : Ensure cookie sent over HTTps,
+        HttpOnly : prevent XSS attacks,
+        SameSite : prevent CSRF attacks
+    
+
+    example:
+    cookie: sessionid=abc123; userid=78910; theme=dark
+
+3. Types
+    first party cookies
+        user is interacting with 
+
+        help with:
+            maintain login status
+            track or store user prefrences 
+            duration visit
+            personalized experiece
+
+
+    third party cookies
+
+
+4. Security Considerations
+    Cookie attribute
+
+    cookie poisioning
+
+    Man-in-the-middle attacks
+
+    Considerations
+
+    similar to session

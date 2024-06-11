@@ -1,0 +1,77 @@
+>>> import os 
+>>> os.listdir()
+['cmd.txt', 'instance', 'many_many.py', 'one_many.py', '__pycache__']
+
+>>> from many_many import app,db , Customer,Product
+
+>>> app_ctx=app.app_context()
+>>> app_ctx.push()
+
+>>> db.create_all()
+
+//data Customer
+>>> steve=Customer(name='steve',email='steve@gmail.com')
+>>> tony=Customer(name='tony',email='tony@gmail.com')    
+>>> peter=Customer(name='peter',email='peter@gmail.com')
+>>> matt=Customer(name='matt',email='matt@gmail.com')    
+>>> matt
+Customer ('matt', 'matt@gmail.com')
+
+//data Product
+>>> bowl=Product(product='Bowl',price=5)
+>>> Knife=Product(product='Knife',price=3)
+>>> scissors=Product(product='Scissors',price=2.5)
+>>> cup=Product(product='Cup',price=1.5)
+>>> plate=Product(product='Plate',price=8)   
+
+>>> db.session.add_all([steve,tony,peter,matt,bowl,Knife,scissors,cup,plate]) 
+
+>>> steve
+Customer ('steve', 'steve@gmail.com')
+>>> steve.items
+[]
+>>> type(steve.items)
+<class 'sqlalchemy.orm.collections.InstrumentedList'>
+
+>>> cup       
+Product ('Cup', '1.5')
+>>> cup.owners
+[]
+>>> type(cup.owners) 
+<class 'sqlalchemy.orm.collections.InstrumentedList'>
+
+>>> steve.items.append(cup)
+>>> steve.items
+[Product ('Cup', '1.5')]
+>>> steve.items.append(plate)
+>>> steve.items
+[Product ('Cup', '1.5'), Product ('Plate', '8')]
+>>> steve.items.append(bowl)
+
+>>> db.session.commit()
+
+>>> steve.items          
+[Product ('Cup', '1.5'), Product ('Plate', '8'), Product ('Bowl', '5')] 
+
+>>> bowl.owners  
+[Customer ('steve', 'steve@gmail.com')]
+
+
+>>> tony.items                          
+[]
+>>> tony.items.extend([cup,bowl,Knife]) 
+>>> tony.items
+[Product ('Cup', '1.5'), Product ('Bowl', '5'), Product ('Knife', '3')]
+       
+>>> db.session.commit()
+
+>>> cup.owners 
+[Customer ('steve', 'steve@gmail.com'), Customer ('tony', 'tony@gmail.com')]
+
+>>> cup.product
+'Cup'
+>>> cup.price
+1.5
+
+>>> app_ctx.pop()
+>>> exit()

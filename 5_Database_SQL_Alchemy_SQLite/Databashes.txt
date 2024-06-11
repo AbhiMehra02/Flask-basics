@@ -1,0 +1,23 @@
+1. About databases
+
+2. Types of databases
+    1. relational 
+    2. non relational
+
+3. realtion-
+    1. one - one
+    2. one - many
+    3. many - many
+
+python <=[ ORM ]=> SQL
+
+4. WHy use ORM ?
+    abstraction of SQL queries
+    mapping OOP language and Relational Database.
+    overcome SQL injection Attack
+    etc...
+
+5. SQL alchemy
+    python specific ORM tool
+
+6. SQL lite -tools

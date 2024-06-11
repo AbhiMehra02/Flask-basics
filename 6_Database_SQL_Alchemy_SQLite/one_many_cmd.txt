@@ -1,0 +1,66 @@
+>>> import os 
+>>> os.listdir()
+['cmd.txt', 'one_many.py']
+
+>>> from one_many import app,db
+>>> from one_many import Team, Player
+
+>>> app_context=app.app_context()
+>>> app_context.push()
+
+>>> db.create_all()
+
+>>> csk=Team(team='CSK',state='Tamil Nadu')
+>>> csk
+Team ('CSK', 'Tamil Nadu')
+
+>>> rcb=Team(team='RCB',state='Karnataka')
+>>> mi=Team(team='MI',state='Maharashtra')
+
+>>> db.session.add_all([csk,rcb])
+>>> db.session.commit()
+
+>>> msd=Player(name='Dhoni',nationality='Indian',team=csk)
+>>> msd
+Team ('Dhoni', 'Indian')
+
+>>> db.session.add_all([mi,msd])
+>>> db.session.commit()
+
+>>> moeen=Player(name='Moeen Ali',nationality='English',team=csk)
+>>> jadeja=Player(name='Ravindra Jadeja', nationality='Indian',team=csk)
+>>> kohli=Player(name='Virat Kohli', nationality='Indian',team=rcb)      
+>>> faf=Player(name='FAF Bu Plesis', nationality='South African',team=rcb)
+>>> Sharma=Player(name='Rohit Sharma', nationality='Indian',team=mi)       
+>>> tim=Player(name='Tim David', nationality='Australian',team=mi)       
+
+>>> db.session.add_all([moeen,jadeja,kohli,faf,Sharma,tim])
+>>> db.session.commit()
+
+// one_to_many
+
+>>> Team.query.first()
+Team ('CSK', 'Tamil Nadu')
+
+>>> csk_team=Team.query.first()
+>>> csk_team
+Team ('CSK', 'Tamil Nadu')
+
+>>> csk_team.member 
+[Team ('Dhoni', 'Indian'), Team ('Moeen Ali', 'English'), Team ('Ravindra Jadeja', 'Indian')]
+
+>>> for pl in csk_team.member:
+...     print(f"{pl.name} plays for the {pl.nationality} national")
+... 
+Dhoni plays for the Indian national
+Moeen Ali plays for the English national
+Ravindra Jadeja plays for the Indian national
+
+>>> msd_player=csk_team.member[0]
+>>> msd_player
+Team ('Dhoni', 'Indian')
+
+>>> msd_player.team  
+Team ('CSK', 'Tamil Nadu')
+
+>>> app_context.pop()

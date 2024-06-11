@@ -1,0 +1,119 @@
+>>> import os
+
+>>> os.listdir()
+['Databashes.txt', 'db_crud_demo.py']
+
+>>> from db_crud_demo import app,db
+
+// C-create R-ead U-update D-delete
+# C-Create
+>>> db.create_all()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "C:\Users\abhis\Desktop\program\flask_project\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")      
+  File "C:\Users\abhis\Desktop\program\flask_project\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 871, in _call_for_binds
+    engine = self.engines[key]
+             ^^^^^^^^^^^^
+  File "C:\Users\abhis\Desktop\program\flask_project\venv\Lib\site-packages\flask_sqlalchemy\extension.py", line 687, in engines
+    app = current_app._get_current_object()  # type: ignore[attr-defined]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\abhis\Desktop\program\flask_project\venv\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context. 
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+
+>>> app_context=app.app_context()
+
+>>> app_context
+<flask.ctx.AppContext object at 0x00000269FBBD63D0>   
+
+>>> app_context.push()
+
+>>> db.create_all()
+
+>>> from db_crud_demo import Employee 
+
+>>> michael=Employee(name='Michael',age=42,email='michael@gmail.com')
+
+>>> michael
+Employee('Michael', 42, 'michael@gmail.com')
+
+>>> db.session.add(michael)
+>>> db.session.commit()
+
+>>> dwight=Employee(name='dwight',age=43,email='dwight@gmail.com')
+>>> dwight
+Employee('dwight', 43, 'dwight@gmail.com')
+
+>>> jim=Employee(name='jim',age=37,email='jim@gmail.com')          
+>>> jim
+Employee('jim', 37, 'jim@gmail.com')
+
+>>> db.session.add_all([dwight,jim])
+>>> db.session.commit()
+
+
+# R-Read 
+>>> employees=Employee.query.all()
+>>> employees
+[Employee('Michael', 42, 'michael@gmail.com'), Employee('dwight', 43, 'dwight@gmail.com'), Employee('jim', 37, 'jim@gmail.com')]
+
+>>> employees[0]
+Employee('Michael', 42, 'michael@gmail.com')
+>>> employees[2] 
+Employee('jim', 37, 'jim@gmail.com')
+
+>>> mike =employees[0]
+>>> mike.age
+42
+>>> mike.name
+'Michael'
+
+>>> for emp in employees:
+...     print(f"{emp.name} who is {emp.age} year old , who email as {emp.email}")
+...
+Michael who is 42 year old , who email as michael@gmail.com
+dwight who is 43 year old , who email as dwight@gmail.com
+jim who is 37 year old , who email as jim@gmail.com
+
+>>> Employee.query.first()
+Employee('Michael', 42, 'michael@gmail.com')
+
+>>> Employee.query.filter_by(name='jim')
+<flask_sqlalchemy.query.Query object at 0x0000017B7D94AC90>     
+>>> Employee.query.filter_by(name='jim').all()
+[Employee('jim', 37, 'jim@gmail.com')]
+
+
+>>> Employee.query.filter_by(name='jim').first()
+Employee('jim', 37, 'jim@gmail.com')
+
+
+# using id 
+>>> db.session.get(Employee,1)                       
+Employee('Michael', 42, 'michael@gmail.com')
+>>> db.session.get(Employee,3) 
+Employee('jim', 37, 'jim@gmail.com')
+
+
+# U-Update
+>>> employees=Employee.query.all()
+>>> mike=employees[0]
+>>> mike
+Employee('Michael', 42, 'michael@gmail.com')
+>>> mike.age=50
+>>> mike
+Employee('Michael', 50, 'michael@gmail.com')
+>>> db.session.commit()
+
+# D-delete
+>>> jim
+Employee('jim', 37, 'jim@gmail.com')
+>>> db.session.delete(jim)
+>>> db.session.commit()
+
+>>> app_context.pop()

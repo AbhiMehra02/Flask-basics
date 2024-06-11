@@ -1,0 +1,60 @@
+1. Defination
+    Web Sessions
+        period of time.(until the user logout or Session is time out)
+
+    User <-Interation-> application
+        client-side -cookies
+        server-side -database
+    
+    maintain user prefrences 
+        Usser login status
+        items in online shopping Cart
+        website layout/appearance prefrences
+
+
+2. Working
+    1. client - server  Architecture 
+
+    User <=> APP <= (HTTP request>,<Response) => server
+
+    2. HTTP is stateless 
+    3. login credentials stored in server
+    4. ID ->genrated 
+        key : value pair
+        "123":{login credentials} ->"session store"
+
+    5. for every Interation request is generated  -> Session ID
+
+    6. client-side session (data also share)   -default-> Falsk
+       server-side session  (only id is share) -external library  
+
+3. Types of Sessions  
+    Based on duration
+        1. Persistent session (permanant)
+            ex. OTT platforms
+
+        2. Non Persistent session(temporary)
+            ex. browser/app
+
+    Based on  Security
+        1. Authenticated
+            via login credentials
+        2. Anonymous
+            ex. amazon browse without login
+
+    Based on storage location
+        1. Client side
+        2. server sise
+
+
+4. Security Considerations
+    1. Session ID
+    2. Secure Cookies
+    3. Session Timeout
+    4. Logging & Monitoring
+
+    5. Additional Measures:
+       1. implement MFA(multi factor Authentication)
+       2. prompt user to confirm and any all critical within a session
+       3. Notify users before session Timeout due to inactivity, if they want to extend a session.
+       
