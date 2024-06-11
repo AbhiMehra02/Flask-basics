@@ -1,0 +1,6 @@
+1xx -informative
+2xx  -Sucess
+3xx  -Redirection
+4xx  -Client-side-error
+5xx  -Server -Side-error
+

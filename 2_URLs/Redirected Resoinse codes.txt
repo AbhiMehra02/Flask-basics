@@ -1,0 +1,5 @@
+301 :Moves Permanently
+302 :Redirected temporarily
+303 :Redirected temporarily
+304 :Redirected temporarily
+308 :Redirected Permanently
